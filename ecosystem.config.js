@@ -2,7 +2,7 @@ export default {
   apps: [
     {
       name: 'telegram-autoreplier',
-      script: 'build/main.js',
+      script: './build/main.js',
       interpreter: 'node',
       watch: false,
       autorestart: true,
