@@ -12,7 +12,7 @@ const apiId: number = Number(process.env.API_ID)
 const apiHash: string = process.env.API_HASH!
 const session: string = process.env.APP_SESSION!
 
-const AUTO_REPLY = 'Спасибо за сообщение! Я сейчас в отпуске с 23 по 29 июня. Отвечу вам, как только вернусь. 🏖️'
+const AUTO_REPLY = 'Привет! Я сейчас в отпуске до 29 июня 🌴 \nОбязательно отвечу после возвращения!'
 
 const replies = new Map<number, UserReplyData> ()
 
