@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'telegram-autoreplier',
-      script: '/var/www/api/telegram-autoreplier/build/main.js',
+      script: 'build/main.js',
       interpreter: 'node',
       watch: false,
       autorestart: true,
