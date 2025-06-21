@@ -48,11 +48,12 @@ function isOnVacation() {
 }
 const apiId = Number(process.env.API_ID);
 const apiHash = process.env.API_HASH;
+const session = process.env.APP_SESSION;
 const AUTO_REPLY = "Спасибо за сообщение! Я сейчас в отпуске с 23 по 29 июня. Отвечу вам, как только вернусь. 🏖️";
 const replies = /* @__PURE__ */ new Map();
 async function main() {
   try {
-    const stringSession = new StringSession("");
+    const stringSession = new StringSession(session || "");
     const client = new TelegramClient(stringSession, apiId, apiHash, {
       connectionRetries: 5,
       retryDelay: 2e3,
@@ -77,7 +78,9 @@ async function main() {
       }
     });
     console.log("✅ Авторизация успешна!");
-    client.session.save();
+    if (!stringSession) {
+      client.session.save();
+    }
     const me = await client.getMe();
     console.log(`👤 Авторизован как: ${me.firstName} ${me.lastName || ""} (@${me.username || "без username"})`);
     if (!isOnVacation()) {
@@ -111,7 +114,7 @@ async function main() {
       }
     }, new NewMessage({}));
     console.log("🤖 Бот запущен и слушает входящие сообщения...");
-    console.log(`📝 Автоответ: "${AUTO_REPLY}"`);
+    console.log(`📝 Текущий текст автоответа: "${AUTO_REPLY}"`);
     console.log("Для остановки нажмите Ctrl+C");
     process.on("SIGINT", async () => {
       console.log("\n🛑 Получен сигнал остановки...");

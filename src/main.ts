@@ -10,6 +10,7 @@ import { canReplyToUser, getUserInfo, isOnVacation } from '@/shared'
 
 const apiId: number = Number(process.env.API_ID)
 const apiHash: string = process.env.API_HASH!
+const session: string = process.env.APP_SESSION!
 
 const AUTO_REPLY = 'Спасибо за сообщение! Я сейчас в отпуске с 23 по 29 июня. Отвечу вам, как только вернусь. 🏖️'
 
@@ -17,7 +18,7 @@ const replies = new Map<number, UserReplyData> ()
 
 async function main() {
     try {
-        const stringSession = new StringSession('')
+        const stringSession = new StringSession(session || '')
 
         const client = new TelegramClient(stringSession, apiId, apiHash, {
             connectionRetries: 5,
@@ -46,7 +47,9 @@ async function main() {
 
         console.log("✅ Авторизация успешна!")
 
-        client.session.save()!
+        if (!stringSession) {
+            client.session.save()!
+        }     
 
         const me = await client.getMe()
         console.log(`👤 Авторизован как: ${me.firstName} ${me.lastName || ''} (@${me.username || 'без username'})`)
